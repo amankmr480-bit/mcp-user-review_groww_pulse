@@ -1,0 +1,14 @@
+{
+  "total_rows": 800,
+  "skipped_few_words": 0,
+  "skipped_emoji_only": 0,
+  "skipped_no_date": 0,
+  "skipped_no_rating": 0,
+  "written": 800,
+  "weeks": [
+    "2026-W10",
+    "2026-W11"
+  ],
+  "output_dir": "output",
+  "max_total_reviews": 800
+}

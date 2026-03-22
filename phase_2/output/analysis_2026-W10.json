@@ -1,0 +1,87 @@
+{
+  "week_id": "2026-W10",
+  "themes": [
+    {
+      "theme_id": "th_3cef3298491a",
+      "week_id": "2026-W10",
+      "label": "Ease of Use",
+      "description": "Users praise the app's simplicity and ease of use.",
+      "rank": 1
+    },
+    {
+      "theme_id": "th_2d19eb8b1e8b",
+      "week_id": "2026-W10",
+      "label": "Customer Support",
+      "description": "Users express frustration with customer support, citing long wait times and unhelpful responses.",
+      "rank": 2
+    },
+    {
+      "theme_id": "th_aa31333bd758",
+      "week_id": "2026-W10",
+      "label": "App Performance",
+      "description": "Users report issues with app performance, including lagging, crashes, and slow updates.",
+      "rank": 3
+    },
+    {
+      "theme_id": "th_a2a475b07aa2",
+      "week_id": "2026-W10",
+      "label": "Brokerage Charges",
+      "description": "Users express dissatisfaction with high brokerage charges and fees.",
+      "rank": 4
+    },
+    {
+      "theme_id": "th_c97c180825e5",
+      "week_id": "2026-W10",
+      "label": "Technical Issues",
+      "description": "Users report various technical issues, including glitches, buffering, and slow data processing.",
+      "rank": 5
+    }
+  ],
+  "quotes": [
+    {
+      "quote_id": "qt_b4258e766da6",
+      "week_id": "2026-W10",
+      "theme_id": "th_3cef3298491a",
+      "text": "very easy simple processing system"
+    },
+    {
+      "quote_id": "qt_856b37cdbf52",
+      "week_id": "2026-W10",
+      "theme_id": "th_2d19eb8b1e8b",
+      "text": "customer service calls have wait time for 5 + minutes"
+    },
+    {
+      "quote_id": "qt_35742cedb2ed",
+      "week_id": "2026-W10",
+      "theme_id": "th_aa31333bd758",
+      "text": "Whenever I open app I have to login again, I don't know why I get logged out again and again."
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "ac_dcc2f4f0719e",
+      "week_id": "2026-W10",
+      "text": "Improve customer support response times and quality.",
+      "order": 1
+    },
+    {
+      "action_id": "ac_6d4b36391763",
+      "week_id": "2026-W10",
+      "text": "Address technical issues and optimize app performance.",
+      "order": 2
+    },
+    {
+      "action_id": "ac_ca4aa93c012d",
+      "week_id": "2026-W10",
+      "text": "Review and adjust brokerage charges to be more competitive.",
+      "order": 3
+    }
+  ],
+  "meta": {
+    "review_batch_size": 15,
+    "analyzed_at": "2026-03-19T19:10:34.555464+00:00",
+    "map_api_calls": 34,
+    "reduce_api_calls": 1,
+    "review_count": 503
+  }
+}

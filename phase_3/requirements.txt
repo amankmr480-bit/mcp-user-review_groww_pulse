@@ -1,0 +1,3 @@
+# Phase 3: stdlib + optional python-dotenv for local .env loading.
+python-dotenv>=1.0.0
+

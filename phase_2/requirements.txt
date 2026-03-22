@@ -1,0 +1,2 @@
+# Phase 2: urllib (stdlib) + load GROQ_API_KEY from .env
+python-dotenv>=1.0.0

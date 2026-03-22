@@ -1,0 +1,2 @@
+# Phase 1: ingest uses stdlib only; export needs google-play-scraper (public Play Store data).
+google-play-scraper>=1.2.0

@@ -1,0 +1,87 @@
+{
+  "week_id": "2026-W11",
+  "themes": [
+    {
+      "theme_id": "th_0fac7f26e004",
+      "week_id": "2026-W11",
+      "label": "Technical Issues",
+      "description": "App crashes, freezes, and shows error messages.",
+      "rank": 1
+    },
+    {
+      "theme_id": "th_676d06532fa7",
+      "week_id": "2026-W11",
+      "label": "Charges and Fees",
+      "description": "High brokerage charges, GST, and external charges.",
+      "rank": 2
+    },
+    {
+      "theme_id": "th_367141330487",
+      "week_id": "2026-W11",
+      "label": "User Experience",
+      "description": "Poor user interface, difficult to use, and misleading notifications.",
+      "rank": 3
+    },
+    {
+      "theme_id": "th_827ffddf9e5b",
+      "week_id": "2026-W11",
+      "label": "Customer Support",
+      "description": "Unhelpful customer support, poor response, and lack of features.",
+      "rank": 4
+    },
+    {
+      "theme_id": "th_7dfe9c4a74ed",
+      "week_id": "2026-W11",
+      "label": "Investment and Trading Features",
+      "description": "Limited trading options, poor safe exit system, and lack of features.",
+      "rank": 5
+    }
+  ],
+  "quotes": [
+    {
+      "quote_id": "qt_e333a4114a52",
+      "week_id": "2026-W11",
+      "theme_id": "th_0fac7f26e004",
+      "text": "something went wrong please try again later fix this disgusting issue please"
+    },
+    {
+      "quote_id": "qt_205c8fb7ad2a",
+      "week_id": "2026-W11",
+      "theme_id": "th_676d06532fa7",
+      "text": "40 rupees+gst on every trade is too expensive. don't do treding on this app"
+    },
+    {
+      "quote_id": "qt_519efce18d80",
+      "week_id": "2026-W11",
+      "theme_id": "th_367141330487",
+      "text": "good but need to improve user friendly and need to help investor or trader"
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "ac_608fba87da19",
+      "week_id": "2026-W11",
+      "text": "Improve app stability and order execution.",
+      "order": 1
+    },
+    {
+      "action_id": "ac_a54d331de103",
+      "week_id": "2026-W11",
+      "text": "Reduce high brokerage charges and external charges.",
+      "order": 2
+    },
+    {
+      "action_id": "ac_44b2d0b4960d",
+      "week_id": "2026-W11",
+      "text": "Enhance user experience and provide better customer support.",
+      "order": 3
+    }
+  ],
+  "meta": {
+    "review_batch_size": 15,
+    "analyzed_at": "2026-03-22T00:00:15.201224+00:00",
+    "map_api_calls": 20,
+    "reduce_api_calls": 1,
+    "review_count": 297
+  }
+}
