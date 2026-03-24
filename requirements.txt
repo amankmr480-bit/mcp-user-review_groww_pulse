@@ -1,0 +1,2 @@
+# Streamlit Cloud / monorepo: Phase 5 UI + optional FastAPI deps
+-r phase_5/requirements.txt

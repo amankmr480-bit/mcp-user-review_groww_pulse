@@ -1,9 +1,8 @@
-# Phase 5: Backend (Streamlit + API)
+# Phase 5: Primary UI (Streamlit) + optional API (FastAPI)
 
-Phase 5 provides:
+Phase 5 is the **default product surface**: **Streamlit** implements the full operator UI (same layout as the former Phase 6 Next app — week date, pipeline controls, note + draft columns, blue gradient styling). The pipeline runs **in-process**; you do **not** need Vercel or Phase 6 for this path.
 
-- **Streamlit control panel** to orchestrate Phase 1 -> 2 -> 3 and send email drafts
-- **FastAPI endpoints** for the Phase 6 frontend
+**Optional:** **FastAPI** (`api.py`) exposes REST routes if you want HTTP clients (e.g. automation) or the **optional** Next.js app in `phase_6/`.
 
 ## Install
 
@@ -12,19 +11,36 @@ cd "e:\Gen AI bootcamp\MCP user review\phase_5"
 pip install -r requirements.txt
 ```
 
-## Run Streamlit Backend Console
+## Run Streamlit (primary UI)
+
+From `phase_5` (so imports resolve):
 
 ```powershell
-streamlit run streamlit_app.py
+python -m streamlit run streamlit_app.py
 ```
 
-## Run API Server
+Or from repo root:
 
 ```powershell
+cd "e:\Gen AI bootcamp\MCP user review"
+python -m streamlit run phase_5/streamlit_app.py
+```
+
+## Deploy on Streamlit Community Cloud (GitHub)
+
+- Repository: your GitHub repo (monorepo root).
+- **Main file path:** `phase_5/streamlit_app.py`
+- Dependencies: root **`requirements.txt`** includes `-r phase_5/requirements.txt`.
+- **Secrets:** set `GROQ_API_KEY`, SMTP variables, etc. (same names as Phase 2/3 `.env` expectations).
+
+## Run API server (optional)
+
+```powershell
+cd "e:\Gen AI bootcamp\MCP user review\phase_5"
 uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-## API Endpoints
+## API Endpoints (optional FastAPI)
 
 - `GET /health`
 - `GET /weeks`
@@ -46,5 +62,4 @@ Response includes `resolved_week_id` (e.g. `2026-W12`) and `steps`.
 
 - `POST /weeks/{week}/send`
 
-CORS is enabled for `http://localhost:3000` and `http://127.0.0.1:3000` (Phase 6 dev server).
-
+CORS is enabled for `http://localhost:3000` and `http://127.0.0.1:3000` (optional Phase 6 dev server).
