@@ -1,0 +1,11 @@
+# Used when: cd phase_5 && streamlit run streamlit_app.py
+[theme]
+base = "dark"
+primaryColor = "#ef4444"
+backgroundColor = "#0f172a"
+secondaryBackgroundColor = "rgba(30, 58, 138, 0.45)"
+textColor = "#ffffff"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"

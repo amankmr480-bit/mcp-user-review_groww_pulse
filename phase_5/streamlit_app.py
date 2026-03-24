@@ -27,28 +27,118 @@ st.set_page_config(
 )
 
 st.markdown(
-    """
-<style>
+    r"""
+<style id="groww-ui-overrides">
+    /* Full-page gradient (overrides theme background) */
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(160deg, #0f172a 0%, #1e3a8a 42%, #3b82f6 78%, #93c5fd 100%);
-        background-attachment: fixed;
+        background: linear-gradient(160deg, #0f172a 0%, #1e3a8a 42%, #3b82f6 78%, #93c5fd 100%) !important;
+        background-attachment: fixed !important;
+        color: #ffffff !important;
     }
-    [data-testid="stHeader"] { background: rgba(15, 23, 42, 0.2); }
-    .block-container { max-width: 1100px; padding-top: 1.5rem; }
+    [data-testid="stAppViewContainer"] > div:first-child {
+        background: transparent !important;
+    }
+    [data-testid="stHeader"] { background: rgba(15, 23, 42, 0.25) !important; }
+    [data-testid="stHeader"] button, [data-testid="stHeader"] span, [data-testid="stHeader"] a {
+        color: #ffffff !important;
+    }
+    section.main .block-container {
+        max-width: 1100px;
+        padding-top: 1.5rem;
+        color: #ffffff !important;
+    }
+    section.main a { color: #bfdbfe !important; }
+
+    /* Hero title */
+    .p6-hero, .p6-hero * { color: #ffffff !important; }
     .p6-hero h1 {
-        color: #f8fafc !important;
-        text-shadow: 0 1px 2px rgba(15, 23, 42, 0.35);
+        text-shadow: 0 1px 2px rgba(15, 23, 42, 0.45);
         font-size: 1.75rem;
-        margin-bottom: 0.25rem;
+        font-weight: 700;
+        margin: 0 0 1rem 0;
+        padding: 0;
+        border: none;
     }
-    .p6-hero p { color: #e2e8f0 !important; margin-top: 0; }
+
+    /* Beat Streamlit Emotion default (#31333F): all body text in main = white */
+    section.main p, section.main li, section.main ul, section.main ol,
+    section.main h1, section.main h2, section.main h3, section.main h4, section.main h5, section.main h6,
+    section.main label, section.main span:not(button span),
+    section.main [data-testid="stCaption"],
+    section.main [data-testid="stWidgetLabel"] p,
+    section.main [data-testid="stWidgetLabel"] label,
+    section.main [data-testid="stMarkdownContainer"],
+    section.main [data-testid="stMarkdownContainer"] p,
+    section.main [data-testid="stMarkdownContainer"] span,
+    section.main [data-testid="stMarkdownContainer"] li,
+    section.main [data-testid="stMarkdownContainer"] strong,
+    section.main [data-testid="stMarkdownContainer"] em,
+    section.main [data-testid="stMarkdownContainer"] code,
+    section.main .stMarkdown p, section.main .stMarkdown li, section.main .stMarkdown span,
+    section.main .stMarkdown strong, section.main .stMarkdown h1, section.main .stMarkdown h2,
+    section.main .stMarkdown h3, section.main .stMarkdown h4,
+    section.main [data-testid="stText"], section.main [data-testid="stText"] pre,
+    section.main [data-testid="stExpander"] details, section.main [data-testid="stExpander"] summary,
+    section.main [data-testid="stExpander"] p, section.main [data-testid="stExpander"] span,
+    section.main [data-testid="stCheckbox"] label, section.main [data-testid="stCheckbox"] span,
+    section.main [data-testid="stSpinner"] p,
+    section.main [data-testid="stAlert"] p, section.main [data-testid="stAlert"] div,
+    section.main [data-testid="stNotification"] p {
+        color: #ffffff !important;
+    }
+
+    /* Emotion wrapper divs (Streamlit 1.28+) */
+    section.main [class*="st-emotion-cache"] {
+        color: #ffffff !important;
+    }
+
+    /* Glass panels */
     section.main div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 255, 255, 0.96) !important;
-        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        background: rgba(15, 23, 42, 0.5) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-radius: 12px !important;
-        box-shadow: 0 10px 40px rgba(15, 23, 42, 0.2) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
     }
-    .p6-hint { font-size: 0.9rem; color: #334155; margin-top: 0.5rem; }
+
+    .p6-hint, .p6-hint strong {
+        font-size: 0.9rem;
+        color: #ffffff !important;
+        margin-top: 0.5rem;
+    }
+
+    /* --- Exceptions: keep inputs/selects readable (dark text on light field) --- */
+    section.main [data-baseweb="select"] *,
+    section.main [data-baseweb="input"] input,
+    section.main input[type="text"], section.main input[type="number"],
+    section.main [data-testid="stDateInput"] input,
+    section.main [data-testid="stNumberInput"] input {
+        color: #0f172a !important;
+    }
+    section.main [data-baseweb="select"] > div,
+    section.main [data-baseweb="input"] input,
+    section.main [data-testid="stDateInput"] input,
+    section.main [data-testid="stNumberInput"] input {
+        background-color: #f8fafc !important;
+    }
+    /* Select displayed value: Streamlit nests spans inside control */
+    section.main [data-baseweb="select"] [class*="css-"] {
+        color: #0f172a !important;
+    }
+
+    /* Secondary buttons: dark label on light button */
+    section.main button[kind="secondary"], section.main [data-testid="baseButton-secondary"] {
+        color: #0f172a !important;
+        background-color: #f1f5f9 !important;
+        border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    }
+
+    /* JSON / code in expander */
+    section.main [data-testid="stCodeBlock"] code, section.main [data-testid="stCodeBlock"] pre {
+        color: #e2e8f0 !important;
+        background: rgba(0, 0, 0, 0.35) !important;
+    }
 </style>
     """,
     unsafe_allow_html=True,
@@ -78,13 +168,10 @@ if "status_msg" not in st.session_state:
 if "status_ok" not in st.session_state:
     st.session_state.status_ok = True
 
-st.markdown('<div class="p6-hero">', unsafe_allow_html=True)
-st.markdown("# GROWW Review AI Frontend")
 st.markdown(
-    "<p>Streamlit (Phase 5). Pipeline runs in-process.</p>",
+    '<div class="p6-hero"><h1>GROWW Review AI Frontend</h1></div>',
     unsafe_allow_html=True,
 )
-st.markdown("</div>", unsafe_allow_html=True)
 
 weeks = list_weeks()
 _gen_opts = ["—"] + weeks
@@ -112,12 +199,13 @@ with st.container(border=True):
         )
 
     with c2:
-        st.caption("Or choose a generated week")
+        st.caption("Or choose a generated week_id")
         st.selectbox(
             "gen_week",
             options=_gen_opts,
             key="gen_week_select",
             label_visibility="collapsed",
+            format_func=lambda x: "(none yet)" if x == "—" else x,
             on_change=_on_generated_week_changed,
         )
 

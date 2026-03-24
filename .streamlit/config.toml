@@ -1,0 +1,12 @@
+# Used when running: streamlit run phase_5/streamlit_app.py (from repo root)
+# Forces light text; gradient still applied via streamlit_app.py CSS.
+[theme]
+base = "dark"
+primaryColor = "#ef4444"
+backgroundColor = "#0f172a"
+secondaryBackgroundColor = "rgba(30, 58, 138, 0.45)"
+textColor = "#ffffff"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"

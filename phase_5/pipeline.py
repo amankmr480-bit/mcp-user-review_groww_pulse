@@ -136,15 +136,38 @@ def _read_json(path: Path) -> dict[str, Any]:
 
 
 def list_weeks() -> list[str]:
-    out = PHASE3_DIR / "output"
-    if not out.exists():
-        return []
-    weeks: list[str] = []
-    for p in sorted(out.glob("weekly_note_*.json")):
-        week = p.stem.replace("weekly_note_", "")
-        if week:
-            weeks.append(week)
-    return weeks
+    """
+    All ISO week ids that have any pipeline artifact: Phase 1 reviews, Phase 2 analysis,
+    and/or Phase 3 weekly note (so the UI dropdown is populated even before notes exist).
+    """
+    ids: set[str] = set()
+    p1 = PHASE1_DIR / "output"
+    if p1.is_dir():
+        for p in p1.glob("reviews_*.json"):
+            if p.name.startswith("_"):
+                continue
+            stem = p.stem
+            if stem.startswith("reviews_"):
+                w = stem[len("reviews_") :]
+                if w:
+                    ids.add(w)
+    p2 = PHASE2_DIR / "output"
+    if p2.is_dir():
+        for p in p2.glob("analysis_*.json"):
+            stem = p.stem
+            if stem.startswith("analysis_"):
+                w = stem[len("analysis_") :]
+                if w:
+                    ids.add(w)
+    p3 = PHASE3_DIR / "output"
+    if p3.is_dir():
+        for p in p3.glob("weekly_note_*.json"):
+            stem = p.stem
+            if stem.startswith("weekly_note_"):
+                w = stem[len("weekly_note_") :]
+                if w:
+                    ids.add(w)
+    return sorted(ids)
 
 
 def get_note(week: str) -> dict[str, Any]:

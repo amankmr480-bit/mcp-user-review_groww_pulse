@@ -13,6 +13,8 @@ pip install -r requirements.txt
 
 ## Run Streamlit (primary UI)
 
+**Theme:** `.streamlit/config.toml` at the **repo root** or in **`phase_5/`** sets `base = "dark"` and `textColor = "#ffffff"` so Streamlit’s default text is light (the app also injects extra CSS for markdown/widgets).
+
 From `phase_5` (so imports resolve):
 
 ```powershell
@@ -43,7 +45,7 @@ uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 ## API Endpoints (optional FastAPI)
 
 - `GET /health`
-- `GET /weeks`
+- `GET /weeks` — ISO week ids that have **any** of: `reviews_*.json` (Phase 1), `analysis_*.json` (Phase 2), or `weekly_note_*.json` (Phase 3)
 - `GET /week/from-date?date=YYYY-MM-DD` — returns `week_id`, `week_beginning` (ISO Monday), `date`
 - `GET /week/from-id?week_id=2026-W11` — same shape, for syncing UI from a generated week id
 - `GET /weeks/{week}/note`
