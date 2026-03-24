@@ -1,6 +1,6 @@
 """
-Phase 5 — primary frontend (Streamlit): same layout as the former Phase 6 Next.js UI.
-Pipeline runs in-process; no Vercel or separate FastAPI required for this UI.
+Phase 5 — product frontend (Streamlit): pipeline controls, weekly note, email draft.
+Pipeline runs in-process; FastAPI in this package is optional for HTTP clients.
 """
 
 from __future__ import annotations
@@ -81,7 +81,7 @@ if "status_ok" not in st.session_state:
 st.markdown('<div class="p6-hero">', unsafe_allow_html=True)
 st.markdown("# GROWW Review AI Frontend")
 st.markdown(
-    "<p>Streamlit (Phase 5). Pipeline runs in-process — no Vercel or separate API server required.</p>",
+    "<p>Streamlit (Phase 5). Pipeline runs in-process.</p>",
     unsafe_allow_html=True,
 )
 st.markdown("</div>", unsafe_allow_html=True)

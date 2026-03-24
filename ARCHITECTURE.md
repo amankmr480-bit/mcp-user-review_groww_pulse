@@ -1,6 +1,6 @@
 # Phase-Wise Architecture: GROWW App Play Store Review AI Workflow
 
-**Purpose:** Import 8 weeks of GROWW app Play Store reviews, analyze with GROQQ LLM, and produce weekly one-page notes with themes, quotes, action ideas, and email drafts—**primary UI and orchestration on Streamlit (Phase 5)**. **Phase 6 (Next.js) is optional** reference code only; production deployment targets **Streamlit** (e.g. Streamlit Community Cloud), not Vercel, for the end-user interface.
+**Purpose:** Import 8 weeks of GROWW app Play Store reviews, analyze with GROQQ LLM, and produce weekly one-page notes with themes, quotes, action ideas, and email drafts—**UI and orchestration on Streamlit (Phase 5)**. Production deployment targets **Streamlit** (e.g. Streamlit Community Cloud). An optional **FastAPI** in `phase_5` serves HTTP clients only; there is **no separate Next.js / Vercel app** in this repository.
 
 **Constraints:** Public exports only • Max 5 themes • Notes ≤250 words • No PII (usernames, emails, IDs) in any artifact • Phase 1: min 4 words per review, exclude emoji-only, max 800 total rows.
 
@@ -37,8 +37,7 @@
 │   │  Reads/writes artifacts under phase_1 / phase_2 / phase_3 on the host (same repo layout).     │  │
 │   └──────────────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                                       │
-│   Optional: FastAPI (`phase_5/api.py`) for HTTP clients; optional Next.js (`phase_6/`) — not required │  │
-│   for the Streamlit-only product path.                                                                │
+│   Optional: FastAPI (`phase_5/api.py`) for HTTP clients / automation (not required for Streamlit UI). │  │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -52,15 +51,14 @@
 | **Analysis** | GROQQ LLM | Themes (3–5), 3 quotes (sanitized), 3 action ideas per week. |
 | **Generation** | Note assembler | One-page note (≤250 words) + email subject/body. |
 | **UI + orchestration** | Streamlit (`phase_5/streamlit_app.py`) | Full layout: week date, pipeline controls, weekly note, email draft, send to alias (in-process pipeline). |
-| **Optional HTTP API** | FastAPI (`phase_5/api.py`) | REST surface for external tools; not required for Streamlit-only deployment. |
-| **Optional reference UI** | Next.js (`phase_6/`) | Legacy / course reference; **not required** if Streamlit is the only frontend. |
+| **Optional HTTP API** | FastAPI (`phase_5/api.py`) | REST surface for external tools or custom frontends; not required to operate the Streamlit app. |
 
 ### Data Flow (Logical)
 
 1. **Import:** Play Store export → Ingestion → `Review` records (no PII) keyed by week.
 2. **Analyze:** Per week, reviews → GROQQ → `Theme`, `Quote`, `ActionIdea` (stored or in-memory).
 3. **Generate:** Themes + quotes + actions → Note template → `WeeklyNote` + `EmailDraft`.
-4. **Consume:** Streamlit reads note/draft JSON from `phase_3/output/` (or optional FastAPI serves the same files for HTTP clients).
+4. **Consume:** Streamlit reads note/draft JSON from `phase_3/output/` (optional FastAPI exposes the same data over HTTP).
 5. **Send (optional):** User action “Send to alias” → `send_email.py` uses configured SMTP + recipient from env/secrets.
 
 ---
@@ -327,10 +325,10 @@ Stored in env or a small config table; no PII from reviews.
 ## Phase 5: UI + orchestration (Streamlit) — primary frontend
 
 ### 5.1 Responsibilities
-- **Single app:** The Streamlit app (`streamlit_app.py`) provides the **same functional layout** as the former Phase 6 UI: title and intro, **Pipeline Controls** card (calendar week via any date `YYYY-MM-DD`, optional “generated week” picker, Phase 2 batch size, optional Phase 1 ingest, buttons: Run Pipeline, Refresh Weeks, Reload Note & Draft, Send To Alias), then **two columns** for **Weekly Note** and **Email Draft** (word count, body, subject/recipient).
+- **Single app:** The Streamlit app (`streamlit_app.py`) provides the product UI: title and intro, **Pipeline Controls** card (calendar week via any date `YYYY-MM-DD`, optional “generated week” picker, Phase 2 batch size, optional Phase 1 ingest, buttons: Run Pipeline, Refresh Weeks, Reload Note & Draft, Send To Alias), then **two columns** for **Weekly Note** and **Email Draft** (word count, body, subject/recipient).
 - **Orchestration:** Runs the pipeline in-process: `run_pipeline` → Phase 2 analyze + Phase 3 note (and optional Phase 1 ingest); uses `pipeline.py` helpers and repo-relative paths in `config.py` (`phase_1`, `phase_2`, `phase_3`).
-- **Styling:** Blue gradient page background and bordered white panels (aligned with the former `phase_6` Next.js `globals.css` look, within Streamlit constraints).
-- **Optional REST:** `api.py` (FastAPI) remains available for HTTP integrations (e.g. automation, alternate clients); **not** part of the Streamlit-only deployment path.
+- **Styling:** Blue gradient page background and bordered white panels (within Streamlit constraints).
+- **Optional REST:** `api.py` (FastAPI) for HTTP integrations (e.g. automation, custom clients); not started when you only run Streamlit.
 
 ### 5.2 Deployment
 - **Platform:** Streamlit Community Cloud (GitHub repo; main file path e.g. `phase_5/streamlit_app.py`; root `requirements.txt` includes `phase_5` dependencies) or any container/VM running Streamlit.
@@ -338,18 +336,7 @@ Stored in env or a small config table; no PII from reviews.
 
 ---
 
-## Phase 6: Optional reference frontend (Next.js — not required)
-
-### 6.1 Role in the architecture
-- **`phase_6/`** is an **optional** Next.js app that previously mirrored the UI for Vercel. The **product default** is **Streamlit-only (Phase 5)**; you do **not** need Phase 6 deployed for the bootcamp workflow if you use Streamlit.
-- **When to keep it:** Course reference, local experimentation, or if you explicitly want a separate React deployment and are willing to host **FastAPI** for API routes (`NEXT_PUBLIC_BACKEND_API_URL`).
-
-### 6.2 Deployment (only if you choose this path)
-- **Platform:** Vercel (project root `phase_6`), with a separately deployed FastAPI backend—not Streamlit—for the Next app to call.
-
----
-
-## Phase 7: End-to-End Flow (Summary)
+## End-to-End Flow (Summary)
 
 | Phase | Deliverable |
 |-------|-------------|
@@ -358,7 +345,6 @@ Stored in env or a small config table; no PII from reviews.
 | 3 | One-page note (≤250 words) + email draft; optional send to self/alias |
 | 4 | PII rules applied end-to-end; no PII in any artifact |
 | 5 | Streamlit: full UI + ingest, analyze, generate, (optional) send |
-| 6 | *(Optional)* Next.js reference UI + Vercel + FastAPI — not required for Streamlit-only path |
 
 ---
 
@@ -366,8 +352,8 @@ Stored in env or a small config table; no PII from reviews.
 
 - **Data:** Public Play Store review export (CSV/API); storage (file/DB) with PII stripped.
 - **LLM:** GROQQ for theming, quote selection, action ideas, and note/email copy.
-- **Primary UI + backend:** Streamlit (`phase_5/streamlit_app.py`) — orchestration and the same layout as the former Phase 6 app.
-- **Optional:** FastAPI (`phase_5/api.py`) for REST clients; Next.js (`phase_6/`) + Vercel only if you explicitly adopt that stack.
+- **Primary UI + orchestration:** Streamlit (`phase_5/streamlit_app.py`).
+- **Optional:** FastAPI (`phase_5/api.py`) for REST clients or custom frontends.
 - **Email:** SMTP (e.g. Gmail app password); send to self/alias only; no PII in content.
 
-This architecture satisfies: public-only review sources, max 5 themes, ≤250-word scannable notes, no PII in artifacts, and **primary deployment on Streamlit** for the operator UI (Vercel/Phase 6 optional).
+This architecture satisfies: public-only review sources, max 5 themes, ≤250-word scannable notes, no PII in artifacts, and **deployment on Streamlit** for the operator UI.

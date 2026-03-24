@@ -1,8 +1,8 @@
 # Phase 5: Primary UI (Streamlit) + optional API (FastAPI)
 
-Phase 5 is the **default product surface**: **Streamlit** implements the full operator UI (same layout as the former Phase 6 Next app — week date, pipeline controls, note + draft columns, blue gradient styling). The pipeline runs **in-process**; you do **not** need Vercel or Phase 6 for this path.
+Phase 5 is the **product surface**: **Streamlit** implements the operator UI (week date, pipeline controls, note + draft columns, blue gradient styling). The pipeline runs **in-process**.
 
-**Optional:** **FastAPI** (`api.py`) exposes REST routes if you want HTTP clients (e.g. automation) or the **optional** Next.js app in `phase_6/`.
+**Optional:** **FastAPI** (`api.py`) exposes REST routes for HTTP clients (e.g. automation, custom frontends).
 
 ## Install
 
@@ -62,4 +62,4 @@ Response includes `resolved_week_id` (e.g. `2026-W12`) and `steps`.
 
 - `POST /weeks/{week}/send`
 
-CORS is enabled for `http://localhost:3000` and `http://127.0.0.1:3000` (optional Phase 6 dev server).
+CORS is enabled for `http://localhost:3000` and `http://127.0.0.1:3000` (optional local tools calling the API).

@@ -2,8 +2,10 @@
 .env
 .env.*
 !.env.example
-!.env.local.example
 !.env.*.example
+
+# Removed Next.js app; ignore if a local phase_6/ remains (e.g. locked node_modules)
+phase_6/
 
 # Node / Next.js
 node_modules/

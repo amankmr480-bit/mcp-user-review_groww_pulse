@@ -1,5 +1,5 @@
 """
-Phase 5 API surface (for Phase 6 frontend / external clients).
+Phase 5 optional REST API (FastAPI) for external clients or automation.
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-    ],
+    ],  # optional: local SPAs / tools calling this API
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
