@@ -159,7 +159,8 @@ if run_clicked:
         st.session_state.status_msg = "Pipeline run completed."
         st.session_state.status_ok = True
     else:
-        st.session_state.status_msg = f"Pipeline failed: {result}"
+        err = result.get("pipeline_error")
+        st.session_state.status_msg = err if err else f"Pipeline failed: {result}"
         st.session_state.status_ok = False
     st.rerun()
 

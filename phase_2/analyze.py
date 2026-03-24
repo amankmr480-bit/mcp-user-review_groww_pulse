@@ -383,11 +383,25 @@ def run(
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    files = discover_week_files(in_path)
+    all_week_files = discover_week_files(in_path)
+    files = all_week_files
     if week:
-        files = [p for p in files if p.stem == f"reviews_{week}" or week in p.name]
+        files = [p for p in all_week_files if p.stem == f"reviews_{week}" or week in p.name]
+        if not files and all_week_files:
+            avail = sorted(
+                p.stem[len("reviews_") :] if p.stem.startswith("reviews_") else p.stem
+                for p in all_week_files
+                if not p.name.startswith("_")
+            )
+            raise FileNotFoundError(
+                f"No reviews file for week {week!r} under {in_path}. "
+                f"Available week files: {avail}. "
+                f"Re-run Phase 1 with CSV data for that week or pass a different --week."
+            )
     if not files:
-        raise FileNotFoundError(f"No reviews_*.json under {in_path}")
+        raise FileNotFoundError(
+            f"No reviews_*.json under {in_path}. Run Phase 1 ingest first."
+        )
 
     summaries: list[dict[str, Any]] = []
     for fp in files:

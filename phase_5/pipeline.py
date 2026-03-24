@@ -155,6 +155,20 @@ def get_email_draft(week: str) -> dict[str, Any]:
     return _read_json(PHASE3_DIR / "output" / f"email_draft_{week}.json")
 
 
+def _phase1_review_week_ids() -> list[str]:
+    out = PHASE1_DIR / "output"
+    if not out.is_dir():
+        return []
+    ids: list[str] = []
+    for p in sorted(out.glob("reviews_*.json")):
+        if p.name.startswith("_"):
+            continue
+        stem = p.stem
+        if stem.startswith("reviews_"):
+            ids.append(stem[len("reviews_") :])
+    return ids
+
+
 def run_pipeline(
     *,
     week: Optional[str],
@@ -167,15 +181,52 @@ def run_pipeline(
     if run_ingest:
         steps["phase1"] = run_phase1()
         if not steps["phase1"]["ok"]:
-            return {"ok": False, "resolved_week_id": resolved, "steps": steps}
+            return {
+                "ok": False,
+                "resolved_week_id": resolved,
+                "steps": steps,
+                "pipeline_error": steps["phase1"].get("stderr") or str(steps["phase1"]),
+            }
+
+    if resolved:
+        need = PHASE1_DIR / "output" / f"reviews_{resolved}.json"
+        if not need.is_file():
+            avail = _phase1_review_week_ids()
+            hint = (
+                f"No review batch for ISO week {resolved}. "
+                f"Phase 1 output has: {avail if avail else '(no reviews_*.json files)'}. "
+                f"Pick a calendar date that falls in one of those weeks, or add CSV rows dated in {resolved} and run ingest again."
+            )
+            steps["phase2"] = {
+                "ok": False,
+                "stdout": "",
+                "stderr": hint,
+                "returncode": 1,
+            }
+            return {
+                "ok": False,
+                "resolved_week_id": resolved,
+                "steps": steps,
+                "pipeline_error": hint,
+            }
 
     steps["phase2"] = run_phase2(week=resolved, batch_size=batch_size)
     if not steps["phase2"]["ok"]:
-        return {"ok": False, "resolved_week_id": resolved, "steps": steps}
+        return {
+            "ok": False,
+            "resolved_week_id": resolved,
+            "steps": steps,
+            "pipeline_error": steps["phase2"].get("stderr") or str(steps["phase2"]),
+        }
 
     steps["phase3"] = run_phase3(week=resolved)
     if not steps["phase3"]["ok"]:
-        return {"ok": False, "resolved_week_id": resolved, "steps": steps}
+        return {
+            "ok": False,
+            "resolved_week_id": resolved,
+            "steps": steps,
+            "pipeline_error": steps["phase3"].get("stderr") or str(steps["phase3"]),
+        }
 
     return {"ok": True, "resolved_week_id": resolved, "steps": steps}
 
